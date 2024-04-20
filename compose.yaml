@@ -1,0 +1,29 @@
+# specify version
+version: "3.8"
+
+# services to be run
+services:
+  web:
+    volumes:
+      - .:/usr/src/app
+
+    depends_on:
+      - mongo
+
+    # env variables
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/bookshelf-nextjs
+
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    ports:
+      - 3000:3000
+
+  # db
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
