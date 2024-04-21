@@ -10,8 +10,10 @@ const page = async () => {
   return (
     <div>
       <Button />
+      <h1>HI THERE</h1>
+      <h1>AUTO RELOADING WORKSSSSS </h1>
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default page;
