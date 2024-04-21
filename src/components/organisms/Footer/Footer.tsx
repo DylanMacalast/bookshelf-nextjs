@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 const Footer = () => {
   return (
@@ -92,7 +92,7 @@ const Footer = () => {
         </div>
       </div>
     </footer>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;
