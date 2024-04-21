@@ -1,7 +1,8 @@
 import React from 'react'
-import '../styles/style.scss'
-import { Header } from '../components/organisms/Header'
-import { Footer } from '../components/organisms/Footer'
+import '../../styles/style.scss'
+import { Header } from '../../components/organisms/Header'
+import { Footer } from '../../components/organisms/Footer'
+import {Metadata} from "next";
 
 export const metadata: Metadata = {
   title: 'Bookshelf App',

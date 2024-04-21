@@ -1,6 +1,6 @@
 import React from 'react'
-import { Button } from '../components/atoms/Button'
-import clientPromise from '../../lib/mongodb'
+import { Button } from '../../components/atoms/Button'
+import clientPromise from '../../../lib/mongodb'
 
 const page = async () => {
   const connection = await clientPromise
@@ -16,4 +16,4 @@ const page = async () => {
   );
 };
 
-export default page;
+export default page
