@@ -1,9 +1,9 @@
-import { db } from "./db";
+import { db } from './db';
 
 const Shelf = db.Shelf;
 
 export const shelfRepo = {
-  getAll,
+  getAll
 };
 
 async function getAll() {

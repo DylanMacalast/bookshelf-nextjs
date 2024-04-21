@@ -1,9 +1,9 @@
-import { db } from "./db";
+import { db } from './db';
 
 const User = db.User;
 
 export const userRepo = {
-  getAll,
+  getAll
 };
 
 async function getAll() {

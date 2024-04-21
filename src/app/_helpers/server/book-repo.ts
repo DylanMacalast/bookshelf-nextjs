@@ -1,9 +1,9 @@
-import { db } from "./db";
+import { db } from './db';
 
 const Book = db.Book;
 
 export const bookRepo = {
-  getAll,
+  getAll
 };
 
 async function getAll() {

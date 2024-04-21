@@ -1,5 +1,5 @@
-import React from "react";
-import { Button } from "../../components/atoms/Button";
+import React from 'react';
+import { Button } from '../../components/atoms/Button';
 
 const page = async () => {
   return (
