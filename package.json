@@ -6,11 +6,13 @@
     "start": "next start"
   },
   "dependencies": {
+    "@hookform/error-message": "^2.0.1",
     "mongodb": "^6.5.0",
     "mongoose": "^8.3.2",
     "next": "latest",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.51.3",
     "sass": "^1.75.0"
   },
   "devDependencies": {
