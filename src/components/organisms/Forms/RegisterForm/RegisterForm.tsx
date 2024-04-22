@@ -1,11 +1,15 @@
 'use client';
-import { log } from 'console';
-import { userRepo } from '../../../../app/_helpers/server/user-repo';
+
 import { FormInput } from '../../../atoms/FormInput';
 import { RegisterFormInputs } from './types';
 import { useForm, SubmitHandler, FormProvider } from 'react-hook-form';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 const RegisterForm = () => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [passwordError, setPasswordError] = useState<boolean>(false);
+  const router = useRouter();
   const defaultValues: RegisterFormInputs = {
     username: '',
     email: '',
@@ -24,6 +28,11 @@ const RegisterForm = () => {
   });
 
   const onSubmit: SubmitHandler<RegisterFormInputs> = async (data) => {
+    if (data?.password !== data?.confirm_password) {
+      setPasswordError(true);
+      return;
+    }
+    setLoading(true);
     const res = fetch('/api/users', {
       method: 'POST',
       headers: {
@@ -32,7 +41,14 @@ const RegisterForm = () => {
       body: JSON.stringify(data)
     });
 
-    console.log(await res);
+    const response = await res;
+    if (response.status !== 200) {
+      setPasswordError(false);
+      setLoading(false);
+    }
+    setPasswordError(false);
+    setLoading(false);
+    router.push('/home');
   };
 
   return (
@@ -77,7 +93,20 @@ const RegisterForm = () => {
             />
           </div>
         </div>
-        <button type="submit">Register</button>
+        <div className="col-span-2 my-1">
+          {passwordError && (
+            <span className="text-red-400 text-xs">
+              Please make sure passwords match
+            </span>
+          )}
+        </div>
+
+        <button
+          type="submit"
+          className="rounded bg-blue-300 shadow p-2 text-white ml-auto"
+        >
+          {loading ? 'loading...' : 'Register'}
+        </button>
       </form>
     </FormProvider>
   );

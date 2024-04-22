@@ -5,7 +5,7 @@ export async function POST(request: NextRequest) {
   const data = await request.json();
 
   try {
-    await userRepo.registerUser(data);
+    const res = await userRepo.registerUser(data);
 
     return NextResponse.json({
       status: 200,

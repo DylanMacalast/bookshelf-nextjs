@@ -29,7 +29,7 @@ const FormInput = ({
       )}
       <input
         type={type}
-        className="bg-gray-100/50 rounded-md shadow p-2"
+        className="bg-white rounded-md shadow p-2"
         {...register(name, {
           required: {
             value: required,
