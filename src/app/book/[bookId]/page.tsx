@@ -1,6 +1,6 @@
 import { bookRepo } from '../../_helpers/server/book-repo';
 
-export default async function Page({ params }: { params: { bookId: number } }) {
+export default async function Page({ params }: { params: { bookId: string } }) {
   const book = await bookRepo.getById(params.bookId);
 
   if (book == null) {

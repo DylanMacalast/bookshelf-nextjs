@@ -19,7 +19,7 @@ async function getAll() {
 }
 
 async function getOne(id: string) {
-  return await Shelf.findById<IShelf>(id);
+  return await Shelf.findById<IShelf>({ _id: id });
 }
 
 // Function to get a shelf for a visitor to look at

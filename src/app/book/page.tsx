@@ -4,15 +4,14 @@ import { IBook } from '../_helpers/interfaces';
 import { addBook } from '../../actions/book';
 
 const dummyBook: IBook = {
-  bookId: -1,
   title: 'The Great Gatsby',
-  userID: 0,
+  userId: '112121212939392939293923', // dummy user id for now
   author: 'F. Scott Fitzgerald',
   isbn: '9780743273565',
   hardcover: true
 };
 
-const page = async () => {
+const page = () => {
   return (
     <div>
       <button

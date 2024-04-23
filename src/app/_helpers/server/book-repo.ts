@@ -8,15 +8,15 @@ export const bookRepo = {
   getById,
   create,
   deleteBook,
-  getByUserID
+  getByUserId
 };
 
 async function getAll() {
   return await Book.find<IBook[]>();
 }
 
-async function getById(bookId: number) {
-  return await Book.findOne({ bookId });
+async function getById(id: string) {
+  return await Book.findOne({ _id: id });
 }
 
 async function create(bookParam: IBook) {
@@ -29,6 +29,6 @@ async function deleteBook(id: string) {
   return await Book.deleteOne({ _id: id });
 }
 
-async function getByUserID(userID: number) {
-  return await Book.find<IBook[]>({ userID });
+async function getByUserId(userId: string) {
+  return await Book.find<IBook[]>({ userId });
 }
