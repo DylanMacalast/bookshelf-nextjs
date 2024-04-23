@@ -9,3 +9,5 @@ export const userRepo = {
 async function getAll() {
   return await User.find();
 }
+
+// TODO: What user functions will we need in the app?

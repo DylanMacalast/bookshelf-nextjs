@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { IBook, IShelf, IUser } from '../interfaces';
 
 const Schema = mongoose.Schema;
 
@@ -8,17 +9,15 @@ mongoose.Promise = global.Promise;
 export const db = {
   Book: bookModel(),
   Shelf: shelfModel(),
-  User: userModel(),
-  UserBookShelf: userBookShelfModel()
+  User: userModel()
 };
 
 // mongoose models with schema definitions
 
 function bookModel() {
-  const schema = new Schema(
+  const schema = new Schema<IBook>(
     {
-      bookId: { type: String, unique: true, required: true },
-      userID: { type: Number, required: true },
+      userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
       title: { type: String, required: true },
       author: { type: String, required: false },
       isbn: { type: String, required: false },
@@ -35,10 +34,9 @@ function bookModel() {
 }
 
 function shelfModel() {
-  const schema = new Schema(
+  const schema = new Schema<IShelf>(
     {
-      shelfId: { type: String, unique: true, required: true },
-      userId: { type: Number, required: true },
+      userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
       title: { type: String, required: true },
       description: { type: String, required: false },
       config: { type: Object, required: false },
@@ -56,9 +54,8 @@ function shelfModel() {
 }
 
 function userModel() {
-  const schema = new Schema(
+  const schema = new Schema<IUser>(
     {
-      userId: { type: String, unique: true, required: true },
       username: { type: String, unique: true, required: true },
       email: { type: String, unique: true, required: true },
       password: { type: String, required: true },
@@ -73,25 +70,6 @@ function userModel() {
 
   setCommonSchemaOptions(schema);
   return mongoose.models.User || mongoose.model('User', schema);
-}
-
-function userBookShelfModel() {
-  const schema = new Schema(
-    {
-      bookShelfId: { type: String, unique: true, required: true },
-      userID: { type: Number, required: true },
-      shelf: { type: Schema.Types.ObjectId, ref: 'Shelf' }
-    },
-    {
-      // add createdAt and updatedAt timestamps
-      timestamps: true
-    }
-  );
-
-  setCommonSchemaOptions(schema);
-  return (
-    mongoose.models.UserBookShelf || mongoose.model('UserBookShelf', schema)
-  );
 }
 
 function setCommonSchemaOptions(schema: mongoose.Schema) {
