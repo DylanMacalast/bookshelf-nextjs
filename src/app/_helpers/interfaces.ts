@@ -1,6 +1,7 @@
 import { ObjectId } from 'mongodb';
 
 export interface IBook {
+  _id?: ObjectId | string;
   userId: ObjectId | string;
   title: string;
   author: string;
@@ -9,7 +10,8 @@ export interface IBook {
 }
 
 export interface IShelf {
-  userId: ObjectId;
+  _id?: ObjectId | string;
+  userId: ObjectId | string;
   title: string;
   description: string;
   config: IShelfConfig;
@@ -22,6 +24,7 @@ export interface IShelfConfig {
 }
 
 export interface IUser {
+  _id?: ObjectId | string;
   username: string;
   email: string;
   password: string;
