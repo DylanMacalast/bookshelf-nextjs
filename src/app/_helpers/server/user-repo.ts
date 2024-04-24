@@ -12,6 +12,8 @@ async function getAll() {
   return await User.find();
 }
 
+// TODO: What user functions will we need in the app?
+
 async function registerUser(user: RegisterFormInputs) {
   return await User.create(user);
 }
