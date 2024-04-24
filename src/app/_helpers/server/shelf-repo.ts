@@ -11,7 +11,8 @@ export const shelfRepo = {
   addBookToShelf,
   makePublic,
   deleteShelf,
-  getByUserID
+  getByUserID,
+  updateShelf
 };
 
 async function getAll() {
@@ -47,4 +48,10 @@ async function deleteShelf(id: string) {
 
 async function getByUserID(userID: string) {
   return await Shelf.find<IShelf[]>({ userID });
+}
+
+async function updateShelf(shelf: IShelf) {
+  console.log(shelf);
+  console.log(await Shelf.findById<IShelf>({ _id: shelf._id }));
+  return await Shelf.updateOne({ _id: shelf._id }, shelf);
 }
