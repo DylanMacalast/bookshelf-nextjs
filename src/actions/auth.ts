@@ -5,7 +5,7 @@ import { IUser } from '../app/_helpers/interfaces';
 import { userRepo } from '../app/_helpers/server/user-repo';
 import { redirect } from 'next/navigation';
 import bcryptjs from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+import { createSession, deleteSession } from '../app/lib/session';
 
 export async function signup(
   prevState: { message: string },
@@ -56,5 +56,13 @@ export async function login(
     if (!validPassword) {
       return { message: 'Invalid password' };
     }
+
+    await createSession(user._id);
+    redirect('/');
   } catch (error) {}
+}
+
+export async function logout() {
+  deleteSession();
+  redirect('/');
 }
