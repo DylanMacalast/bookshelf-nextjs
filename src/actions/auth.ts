@@ -18,12 +18,11 @@ export async function signup(
   };
 
   try {
-    const t = await userRepo.registerUser(userData);
+    await userRepo.registerUser(userData);
 
     revalidatePath('/');
   } catch (error) {
     const errorMessage = (error as Error).message || 'Something went wrong';
-    console.log(errorMessage);
 
     return { message: errorMessage };
   }
