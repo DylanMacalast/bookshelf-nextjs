@@ -5,7 +5,6 @@ import { IUser } from '../app/_helpers/interfaces';
 import { userRepo } from '../app/_helpers/server/user-repo';
 import { redirect } from 'next/navigation';
 import bcryptjs from 'bcryptjs';
-import jwt from 'jsonwebtoken';
 
 export async function signup(
   prevState: { message: string },
