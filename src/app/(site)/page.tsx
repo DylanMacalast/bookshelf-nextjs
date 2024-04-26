@@ -6,7 +6,6 @@ const page = async () => {
   return (
     <div>
       <Button />
-      <RegisterForm />
     </div>
   );
 };

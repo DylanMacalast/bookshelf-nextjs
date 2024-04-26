@@ -1,4 +1,5 @@
 import { RegisterFormInputs } from '../../../components/organisms/Forms/RegisterForm/types';
+import { IUser } from '../interfaces';
 import { db } from './db';
 
 const User = db.User;
@@ -14,6 +15,7 @@ async function getAll() {
 
 // TODO: What user functions will we need in the app?
 
-async function registerUser(user: FormData) {
+async function registerUser(userParam: IUser) {
+  const user = new User(userParam);
   return await User.create(user);
 }
