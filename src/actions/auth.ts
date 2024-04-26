@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import { IUser } from '../app/_helpers/interfaces';
 import { userRepo } from '../app/_helpers/server/user-repo';
+import { redirect } from 'next/navigation';
 
 export async function signup(
   prevState: { message: string },
@@ -18,13 +19,14 @@ export async function signup(
 
   try {
     const t = await userRepo.registerUser(userData);
-    console.log('logged', t);
+
     revalidatePath('/');
-    return { message: 'User registered successfully' };
   } catch (error) {
     const errorMessage = (error as Error).message || 'Something went wrong';
     console.log(errorMessage);
 
     return { message: errorMessage };
   }
+
+  redirect('/login');
 }
