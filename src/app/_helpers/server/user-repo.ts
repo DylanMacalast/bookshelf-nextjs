@@ -5,7 +5,8 @@ const User = db.User;
 
 export const userRepo = {
   getAll,
-  registerUser
+  registerUser,
+  findUserByUsername
 };
 
 async function getAll() {
@@ -23,4 +24,8 @@ async function loginUser(username: string, password: string) {
   // create a token for the user to be returned
 
   User.updateOne({ username }, { token: 'token' });
+}
+
+async function findUserByUsername(username: string) {
+  return await User.findOne({ username });
 }

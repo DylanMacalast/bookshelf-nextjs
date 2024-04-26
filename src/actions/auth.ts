@@ -5,6 +5,7 @@ import { IUser } from '../app/_helpers/interfaces';
 import { userRepo } from '../app/_helpers/server/user-repo';
 import { redirect } from 'next/navigation';
 import bcryptjs from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
 export async function signup(
   prevState: { message: string },
@@ -44,6 +45,16 @@ export async function login(
   const password = formData.get('password') as string;
 
   try {
-    // await userRepo.loginUser(username, password);
+    const user = await userRepo.findUserByUsername(username);
+
+    if (!user) {
+      return { message: 'User not found' };
+    }
+
+    const validPassword = await bcryptjs.compare(password, user.password);
+
+    if (!validPassword) {
+      return { message: 'Invalid password' };
+    }
   } catch (error) {}
 }
