@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongodb';
 import { IBook } from '../interfaces';
 import { db } from './db';
 
@@ -25,7 +26,7 @@ async function create(bookParam: IBook) {
   return await book.save();
 }
 
-async function deleteBook(id: string) {
+async function deleteBook(id: string | ObjectId) {
   return await Book.deleteOne({ _id: id });
 }
 
