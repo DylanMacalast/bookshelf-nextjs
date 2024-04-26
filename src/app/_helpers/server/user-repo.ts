@@ -1,4 +1,3 @@
-import { RegisterFormInputs } from '../../../components/organisms/Forms/RegisterForm/types';
 import { IUser } from '../interfaces';
 import { db } from './db';
 
@@ -18,4 +17,10 @@ async function getAll() {
 async function registerUser(userParam: IUser) {
   const user = new User(userParam);
   return await User.create(user);
+}
+
+async function loginUser(username: string, password: string) {
+  // create a token for the user to be returned
+
+  User.updateOne({ username }, { token: 'token' });
 }

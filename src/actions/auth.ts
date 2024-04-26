@@ -4,15 +4,21 @@ import { revalidatePath } from 'next/cache';
 import { IUser } from '../app/_helpers/interfaces';
 import { userRepo } from '../app/_helpers/server/user-repo';
 import { redirect } from 'next/navigation';
+import bcryptjs from 'bcryptjs';
 
 export async function signup(
   prevState: { message: string },
   formData: FormData
 ) {
+  const salt = await bcryptjs.genSalt(10);
+  const hashedPassword = await bcryptjs.hash(
+    formData.get('password') as string,
+    salt
+  );
   const userData: IUser = {
     username: formData.get('username') as string,
     email: formData.get('email') as string,
-    password: formData.get('password') as string,
+    password: hashedPassword,
     config: {},
     token: ''
   };
@@ -28,4 +34,16 @@ export async function signup(
   }
 
   redirect('/login');
+}
+
+export async function login(
+  prevState: { message: string },
+  formData: FormData
+) {
+  const username = formData.get('username') as string;
+  const password = formData.get('password') as string;
+
+  try {
+    // await userRepo.loginUser(username, password);
+  } catch (error) {}
 }
