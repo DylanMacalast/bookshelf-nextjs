@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 const Header = () => {
   return (
     <header className="p-4 bg-gray-100 text-gray-800">
@@ -20,13 +22,13 @@ const Header = () => {
         </a>
         <ul className="items-stretch hidden space-x-3 md:flex">
           <li className="flex">
-            <a
+            <Link
               rel="noopener noreferrer"
-              href="#"
+              href="/register"
               className="flex items-center px-4 -mb-1 border-b-2 border-transparent"
             >
-              Link
-            </a>
+              Register
+            </Link>
           </li>
           <li className="flex">
             <a

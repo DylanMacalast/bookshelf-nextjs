@@ -4,6 +4,7 @@ import { IBook, IShelf, IUser } from '../interfaces';
 const Schema = mongoose.Schema;
 
 mongoose.connect(process.env.MONGO_URI!);
+
 mongoose.Promise = global.Promise;
 
 export const db = {
@@ -60,7 +61,7 @@ function userModel() {
       email: { type: String, unique: true, required: true },
       password: { type: String, required: true },
       config: { type: Object, required: false },
-      token: { type: String, required: true }
+      token: { type: String, required: false }
     },
     {
       // add createdAt and updatedAt timestamps

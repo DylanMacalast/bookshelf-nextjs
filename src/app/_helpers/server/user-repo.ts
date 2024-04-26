@@ -1,9 +1,12 @@
+import { IUser } from '../interfaces';
 import { db } from './db';
 
 const User = db.User;
 
 export const userRepo = {
-  getAll
+  getAll,
+  registerUser,
+  findUserByUsername
 };
 
 async function getAll() {
@@ -11,3 +14,18 @@ async function getAll() {
 }
 
 // TODO: What user functions will we need in the app?
+
+async function registerUser(userParam: IUser) {
+  const user = new User(userParam);
+  return await User.create(user);
+}
+
+async function loginUser(username: string, password: string) {
+  // create a token for the user to be returned
+
+  User.updateOne({ username }, { token: 'token' });
+}
+
+async function findUserByUsername(username: string) {
+  return await User.findOne({ username });
+}
