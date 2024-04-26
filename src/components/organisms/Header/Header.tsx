@@ -33,13 +33,13 @@ const Header = ({ isAuth }: { isAuth: boolean }) => {
             </Link>
           </li>
           <li className="flex">
-            <a
+            <Link
               rel="noopener noreferrer"
-              href="#"
+              href="/login"
               className="flex items-center px-4 -mb-1 border-b-2 border-transparent"
             >
-              Link
-            </a>
+              Login
+            </Link>
           </li>
           <li className="flex">
             <a
