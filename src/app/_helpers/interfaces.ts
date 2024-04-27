@@ -1,5 +1,6 @@
 import { ObjectId } from 'mongodb';
 
+// #region Book
 export interface IBook {
   _id?: ObjectId | string;
   userId: ObjectId | string;
@@ -8,6 +9,16 @@ export interface IBook {
   isbn: string;
   hardcover: boolean;
 }
+
+export interface IBookCard {
+  title: string;
+  author: string;
+  isbn: string;
+  hardcover: boolean;
+  id?: string;
+}
+
+// #endregion
 
 export interface IShelf {
   _id?: ObjectId | string;
