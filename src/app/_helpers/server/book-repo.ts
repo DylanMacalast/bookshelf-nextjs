@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongodb';
 import { IBook } from '../interfaces';
 import { db } from './db';
 
@@ -12,7 +13,7 @@ export const bookRepo = {
 };
 
 async function getAll() {
-  return await Book.find<IBook[]>();
+  return await Book.find<IBook>();
 }
 
 async function getById(id: string) {
@@ -21,14 +22,13 @@ async function getById(id: string) {
 
 async function create(bookParam: IBook) {
   const book = new Book(bookParam);
-
   return await book.save();
 }
 
-async function deleteBook(id: string) {
+async function deleteBook(id: string | ObjectId) {
   return await Book.deleteOne({ _id: id });
 }
 
 async function getByUserId(userId: string) {
-  return await Book.find<IBook[]>({ userId });
+  return await Book.find<IBook>({ userId });
 }

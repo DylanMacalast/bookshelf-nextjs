@@ -16,7 +16,7 @@ export const shelfRepo = {
 };
 
 async function getAll() {
-  return await Shelf.find<IShelf[]>();
+  return await Shelf.find<IShelf>();
 }
 
 async function getOne(id: string) {
@@ -47,11 +47,9 @@ async function deleteShelf(id: string) {
 }
 
 async function getByUserID(userID: string) {
-  return await Shelf.find<IShelf[]>({ userID });
+  return await Shelf.find<IShelf>({ userID });
 }
 
 async function updateShelf(shelf: IShelf) {
-  console.log(shelf);
-  console.log(await Shelf.findById<IShelf>({ _id: shelf._id }));
   return await Shelf.updateOne({ _id: shelf._id }, shelf);
 }

@@ -16,7 +16,7 @@ const dummyShelf: IShelf = {
 };
 
 const dummyShelf2: IShelf = {
-  _id: '66295e7db56ae0da4d17eb9e', // set to the insert shelf id
+  _id: '662cc49404b645ee8792ebab', // set to the insert shelf id
   userId: '112121212939392939293923', // dummy user id for now
   title: 'My First Shelf UPDATED',
   description: 'This is my first shelf!',

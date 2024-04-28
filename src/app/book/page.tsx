@@ -1,28 +1,23 @@
-'use client';
-import React from 'react';
-import { IBook } from '../_helpers/interfaces';
-import { addBook } from '../../actions/book';
+import BookCard from '../../components/atoms/BookCard/BookCard';
+import { BookForm } from '../../components/organisms/Forms/BookForm/BookForm';
+import { IBookCard } from '../_helpers/interfaces';
+import { bookRepo } from '../_helpers/server/book-repo';
 
-const dummyBook: IBook = {
-  title: 'The Great Gatsby',
-  userId: '112121212939392939293923', // dummy user id for now
-  author: 'F. Scott Fitzgerald',
-  isbn: '9780743273565',
-  hardcover: true
-};
+export default async function Page() {
+  const books = await bookRepo.getAll();
+  // serialise the object to simplify the data being passed to client components
+  const bookCards: IBookCard[] = JSON.parse(JSON.stringify(books));
 
-const page = () => {
   return (
     <div>
-      <button
-        onClick={async () => {
-          await addBook(dummyBook);
-        }}
-      >
-        Add Book
-      </button>
+      <BookForm />
+      <div className="flex justify-center max-w-2xl mx-auto">
+        <div className="flex flex-wrap justify-center gap-2">
+          {bookCards.map((b, i) => (
+            <BookCard book={b} key={i.toString()} />
+          ))}
+        </div>
+      </div>
     </div>
   );
-};
-
-export default page;
+}
