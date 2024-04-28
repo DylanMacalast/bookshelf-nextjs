@@ -1,6 +1,8 @@
+'use client';
 import Link from 'next/link';
+import { logout } from '../../../actions/auth';
 
-const Header = () => {
+const Header = ({ isAuth }: { isAuth: boolean }) => {
   return (
     <header className="p-4 bg-gray-100 text-gray-800">
       <div className="container flex justify-between h-16 mx-auto">
@@ -31,13 +33,13 @@ const Header = () => {
             </Link>
           </li>
           <li className="flex">
-            <a
+            <Link
               rel="noopener noreferrer"
-              href="#"
+              href="/login"
               className="flex items-center px-4 -mb-1 border-b-2 border-transparent"
             >
-              Link
-            </a>
+              Login
+            </Link>
           </li>
           <li className="flex">
             <a
@@ -57,6 +59,17 @@ const Header = () => {
               Link
             </a>
           </li>
+          {isAuth && (
+            <li className="flex">
+              <button
+                rel="noopener noreferrer"
+                onClick={() => logout()}
+                className="flex items-center px-4 -mb-1 border-b-2 border-transparent"
+              >
+                Logout
+              </button>
+            </li>
+          )}
         </ul>
         <button className="flex justify-end p-4 md:hidden">
           <svg
