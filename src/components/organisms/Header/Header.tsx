@@ -44,19 +44,19 @@ const Header = ({ isAuth }: { isAuth: boolean }) => {
           <li className="flex">
             <a
               rel="noopener noreferrer"
-              href="#"
+              href="/book"
               className="flex items-center px-4 -mb-1 border-b-2 border-transparent text-yellow-600 border-yellow-600"
             >
-              Link
+              My Books
             </a>
           </li>
           <li className="flex">
             <a
               rel="noopener noreferrer"
-              href="#"
+              href="/shelf"
               className="flex items-center px-4 -mb-1 border-b-2 border-transparent"
             >
-              Link
+              My Shelfs
             </a>
           </li>
           {isAuth && (
