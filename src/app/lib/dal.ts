@@ -2,6 +2,7 @@ import 'server-only';
 import { cookies } from 'next/headers';
 import { decrypt } from './session';
 import { cache } from 'react';
+import { ObjectId } from 'mongodb';
 
 export const verifySession = cache(async () => {
   const cookie = cookies().get('session')?.value;
@@ -11,5 +12,5 @@ export const verifySession = cache(async () => {
     return { isAuth: false };
   }
 
-  return { isAuth: true, userId: session.userId };
+  return { isAuth: true, userId: <string | ObjectId>session.userId };
 });

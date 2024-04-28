@@ -29,6 +29,6 @@ async function deleteBook(id: string | ObjectId) {
   return await Book.deleteOne({ _id: id });
 }
 
-async function getByUserId(userId: string) {
+async function getByUserId(userId: string | ObjectId) {
   return await Book.find<IBook>({ userId });
 }

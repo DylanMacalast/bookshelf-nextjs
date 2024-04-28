@@ -7,11 +7,11 @@ import { verifySession } from '../lib/dal';
 
 export default async function Page() {
   const session = await verifySession();
-  if (!session.isAuth) {
+  if (!session.isAuth || session.userId == null) {
     redirect('/access-denied');
   }
 
-  const books = await bookRepo.getAll();
+  const books = await bookRepo.getByUserId(session.userId);
   // serialise the object to simplify the data being passed to client components
   const bookCards: IBookCard[] = JSON.parse(JSON.stringify(books));
 

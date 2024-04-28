@@ -2,8 +2,8 @@
 import { revalidatePath } from 'next/cache';
 import { IBook } from '../app/_helpers/interfaces';
 import { bookRepo } from '../app/_helpers/server/book-repo';
-import mongoose from 'mongoose';
 import { ObjectId } from 'mongodb';
+import { verifySession } from '../app/lib/dal';
 
 export async function addBook(
   prevState: {
@@ -11,11 +11,16 @@ export async function addBook(
   },
   formData: FormData
 ) {
+  const session = await verifySession();
+  if (!session.isAuth || session.userId == null) {
+    return { message: 'Unknown Session' };
+  }
+
   if (formData != null) {
     try {
       const book: IBook = {
         title: formData.get('title') as string,
-        userId: new mongoose.Types.ObjectId().toString(),
+        userId: session.userId,
         author: formData.get('author') as string,
         isbn: formData.get('isbn') as string,
         hardcover: formData.get('hardcover') === 'true'
@@ -33,9 +38,15 @@ export async function addBook(
 }
 
 export async function deleteBook(bookId: string | ObjectId) {
+  const session = await verifySession();
+  if (!session.isAuth) {
+    return null;
+  }
+
   if (bookId == null) {
     return;
   }
+
   try {
     await bookRepo.deleteBook(bookId);
   } catch (e) {
