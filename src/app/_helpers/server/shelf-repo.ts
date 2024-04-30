@@ -55,7 +55,10 @@ async function createOrUpdate(shelfParam: IShelf) {
   return await shelf.save();
 }
 
-async function addBooksToShelf(shelfId: string, bookIds: string | ObjectId[]) {
+async function addBooksToShelf(
+  shelfId: string,
+  bookIds: string[] | ObjectId[]
+) {
   return await Shelf.updateOne(
     { _id: shelfId },
     { $push: { books: { $each: bookIds } } }

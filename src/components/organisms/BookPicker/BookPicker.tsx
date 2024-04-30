@@ -17,7 +17,7 @@ export const BookPicker: React.FC<IBookPickerProps> = ({
   booksToAdd,
   booksInShelf
 }) => {
-  const onAddBook = (bookId: string) => {
+  const onAddBook = async (bookId: string) => {
     console.log('Add book', bookId);
   };
 

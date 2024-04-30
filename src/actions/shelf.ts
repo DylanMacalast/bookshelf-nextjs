@@ -3,6 +3,8 @@ import { redirect } from 'next/navigation';
 import { IShelf } from '../app/_helpers/interfaces';
 import { shelfRepo } from '../app/_helpers/server/shelf-repo';
 import { verifySession } from '../app/lib/dal';
+import { ObjectId } from 'mongodb';
+import { bookRepo } from '../app/_helpers/server/book-repo';
 
 export async function addShelf(
   prevState: {
@@ -12,8 +14,8 @@ export async function addShelf(
 ) {
   // only logged in users can create a shelf
   const session = await verifySession();
-  if (!session.isAuth || session.userId == null) {
-    return { message: 'Unknown Session' };
+  if (!session || session.userId == null || session.userId === '') {
+    throw new Error('Invalid session');
   }
 
   if (formData == null) {
@@ -71,6 +73,44 @@ export async function addShelf(
   }
 }
 
-export async function updateShelf(shelf: IShelf) {
-  shelfRepo.updateShelf(shelf);
+// TODO: Update this to be for bookIds not just one bookId -> that way we can do bulk select & add in the client
+export async function addBookToShelf(shelfId: string, bookId: string) {
+  const user = await verifySession();
+  if (!user || user.userId == null || user.userId === '') {
+    throw new Error('Invalid session');
+  }
+
+  // EXTREME SECURITY - NO FUCKING AROUND
+  // REVIEW: this does add extra overhead to adding books to the shelf...
+  // not sure if there is a better way to do this. I guess caching would help down the line
+  // for now I think it's fine -> somethig that will deffo need looking at in the future!
+
+  const shelf = await shelfRepo.getOne(shelfId);
+  if (!shelf) {
+    throw new Error('No shelf found with the provided ID');
+  }
+
+  // Check if the user owns the shelf
+  if (shelf.userId.toString() !== user.userId) {
+    throw new Error('You do not own this shelf');
+  }
+
+  // Fetch the book from the database
+  const book = await bookRepo.getById(bookId);
+  if (!book) {
+    throw new Error('No book found with the provided ID');
+  }
+
+  // Check if the user owns the book
+  if (book.userId !== user.userId) {
+    throw new Error('You do not own this book');
+  }
+
+  try {
+    await shelfRepo.addBooksToShelf(shelfId, [bookId]);
+    return { message: 'Book added to shelf' };
+  } catch (e) {
+    console.error(e);
+    return { message: 'Error adding book to shelf' };
+  }
 }

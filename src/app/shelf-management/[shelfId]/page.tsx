@@ -41,6 +41,11 @@ const page = async ({ params }: { params: { shelfId: string } }) => {
     return <div>No Shelf Found</div>;
   }
 
+  const booksInShelf = shelf.books.map((b) => ({
+    id: b._id?.toString() || '',
+    title: b.title
+  }));
+
   return (
     <>
       <ShelfForm
@@ -53,7 +58,7 @@ const page = async ({ params }: { params: { shelfId: string } }) => {
       />
       <BookPicker
         booksToAdd={await getBooksForShelfForm(session.userId as string)}
-        booksInShelf={[]}
+        booksInShelf={booksInShelf}
       />
     </>
   );
