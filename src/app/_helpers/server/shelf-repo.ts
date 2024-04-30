@@ -26,8 +26,11 @@ async function getOne(id: string | ObjectId) {
   return await Shelf.findById<IShelf>({ _id: id });
 }
 
-async function getMyShelf(id: string | ObjectId) {
-  return await Shelf.findOne<IShelf>({ _id: id, userID: id });
+async function getMyShelf(
+  shelfId: string | ObjectId,
+  userId: string | ObjectId
+) {
+  return await Shelf.findOne<IShelf>({ _id: shelfId, userId: userId });
 }
 
 // Function to get a shelf for a visitor to look at
