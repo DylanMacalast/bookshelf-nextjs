@@ -57,8 +57,8 @@ const page = async ({ params }: { params: { shelfId: string } }) => {
         }}
       />
       <BookPicker
-        booksToAdd={await getBooksForShelfForm(session.userId as string)}
-        booksInShelf={booksInShelf}
+        initialBooksToAdd={await getBooksForShelfForm(session.userId as string)}
+        initialBooksInShelf={booksInShelf}
       />
     </>
   );

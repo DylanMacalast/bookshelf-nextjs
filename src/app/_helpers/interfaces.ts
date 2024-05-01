@@ -20,6 +20,7 @@ export interface IBookCard {
 
 // #endregion
 
+// #region Shelf
 export interface IShelf {
   _id?: ObjectId | string;
   userId: ObjectId | string;
@@ -29,6 +30,15 @@ export interface IShelf {
   books: IBook[];
   public: boolean;
 }
+
+export interface IShelfCard {
+  title: string;
+  description: string;
+  bookCount: number;
+  id?: string;
+}
+
+// #endregion
 
 export interface IShelfConfig {
   [key: string]: any;

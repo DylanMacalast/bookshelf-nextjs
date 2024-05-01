@@ -73,8 +73,8 @@ async function deleteShelf(id: string | ObjectId) {
   return await Shelf.deleteOne({ _id: id });
 }
 
-async function getByUserId(userID: string | ObjectId) {
-  return await Shelf.find<IShelf>({ userID });
+async function getByUserId(userId: string | ObjectId) {
+  return await Shelf.find<IShelf>({ userId });
 }
 
 async function updateShelf(shelf: IShelf) {
