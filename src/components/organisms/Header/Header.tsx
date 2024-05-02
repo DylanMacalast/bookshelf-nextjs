@@ -1,8 +1,23 @@
 'use client';
 import Link from 'next/link';
 import { logout } from '../../../actions/auth';
+import { UserIcon } from '../../atoms/Icons';
+import DropdownMenu from '../../molecules/DropdownMenu/DropdownMenu';
 
 const Header = ({ isAuth }: { isAuth: boolean }) => {
+  const dropDownItems = [
+    {
+      label: 'Logout',
+      value: 'logout',
+      onClick: () => {
+        logout();
+      }
+    },
+    {
+      label: 'Profile',
+      value: 'profile'
+    }
+  ];
   return (
     <header className="p-4 bg-gray-100 text-gray-800">
       <div className="container flex justify-between h-16 mx-auto">
@@ -23,24 +38,29 @@ const Header = ({ isAuth }: { isAuth: boolean }) => {
           </svg>
         </a>
         <ul className="items-stretch hidden space-x-3 md:flex">
-          <li className="flex">
-            <Link
-              rel="noopener noreferrer"
-              href="/register"
-              className="flex items-center px-4 -mb-1 border-b-2 border-transparent"
-            >
-              Register
-            </Link>
-          </li>
-          <li className="flex">
-            <Link
-              rel="noopener noreferrer"
-              href="/login"
-              className="flex items-center px-4 -mb-1 border-b-2 border-transparent"
-            >
-              Login
-            </Link>
-          </li>
+          {!isAuth && (
+            <>
+              <li className="flex">
+                <Link
+                  rel="noopener noreferrer"
+                  href="/register"
+                  className="flex items-center px-4 -mb-1 border-b-2 border-transparent"
+                >
+                  Register
+                </Link>
+              </li>
+              <li className="flex">
+                <Link
+                  rel="noopener noreferrer"
+                  href="/login"
+                  className="flex items-center px-4 -mb-1 border-b-2 border-transparent"
+                >
+                  Login
+                </Link>
+              </li>
+            </>
+          )}
+
           <li className="flex">
             <a
               rel="noopener noreferrer"
@@ -60,14 +80,11 @@ const Header = ({ isAuth }: { isAuth: boolean }) => {
             </a>
           </li>
           {isAuth && (
-            <li className="flex">
-              <button
-                rel="noopener noreferrer"
-                onClick={() => logout()}
-                className="flex items-center px-4 -mb-1 border-b-2 border-transparent"
-              >
-                Logout
-              </button>
+            <li className="flex justify-center items-center">
+              <DropdownMenu
+                menuItems={dropDownItems}
+                buttonIcon={<UserIcon />}
+              />
             </li>
           )}
         </ul>

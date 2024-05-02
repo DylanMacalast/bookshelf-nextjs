@@ -58,7 +58,7 @@ export async function login(
     }
 
     await createSession(user._id);
-    redirect('/');
+    redirect('/book');
   } catch (error) {}
 }
 
