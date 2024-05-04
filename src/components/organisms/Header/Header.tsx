@@ -1,8 +1,23 @@
 'use client';
 import Link from 'next/link';
 import { logout } from '../../../actions/auth';
+import { UserIcon } from '../../atoms/Icons';
+import DropdownMenu from '../../molecules/DropdownMenu/DropdownMenu';
 
 const Header = ({ isAuth }: { isAuth: boolean }) => {
+  const dropDownItems = [
+    {
+      label: 'Logout',
+      value: 'logout',
+      onClick: () => {
+        logout();
+      }
+    },
+    {
+      label: 'Profile',
+      value: 'profile'
+    }
+  ];
   return (
     <header className="p-4 bg-gray-100 text-gray-800">
       <div className="container flex justify-between h-16 mx-auto">
@@ -57,14 +72,11 @@ const Header = ({ isAuth }: { isAuth: boolean }) => {
                   My Shelves
                 </a>
               </li>
-              <li className="flex">
-                <button
-                  rel="noopener noreferrer"
-                  onClick={() => logout()}
-                  className="flex items-center px-4 -mb-1 border-b-2 border-transparent"
-                >
-                  Logout
-                </button>
+              <li className="flex justify-center items-center">
+                <DropdownMenu
+                  menuItems={dropDownItems}
+                  buttonIcon={<UserIcon />}
+                />
               </li>
             </>
           )}
