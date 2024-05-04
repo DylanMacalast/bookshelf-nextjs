@@ -16,7 +16,7 @@ function FormSubmit({ setShowPopup, buttonText }: FormSubmitProps) {
     <button
       type="submit"
       className="bg-blue-400 rounded shadow text-white p-2"
-      aria-disabled={pending}
+      disabled={pending}
       onClick={handleClick}
     >
       {buttonText}
