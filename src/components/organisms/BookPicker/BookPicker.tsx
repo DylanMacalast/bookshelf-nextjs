@@ -1,7 +1,6 @@
 'use client';
 import React, { useState } from 'react';
 import { BookPikcerCard } from '../../atoms/BookPickerCard/BookPickerCard';
-import FlipMove from 'react-flip-move';
 
 interface IBook {
   id: string;
@@ -35,7 +34,6 @@ export const BookPicker: React.FC<IBookPickerProps> = ({
     <div className="flex">
       <div className="w-1/2 p-2">
         <h2>Books to add</h2>
-        {/* <FlipMove> */}
         {booksToAdd.map((book) => (
           <BookPikcerCard
             book={book}
@@ -44,11 +42,9 @@ export const BookPicker: React.FC<IBookPickerProps> = ({
             key={book.id}
           />
         ))}
-        {/* </FlipMove> */}
       </div>
       <div className="w-1/2 border-l border-black border-solid p-2">
         <h2>Books in shelf</h2>
-        {/* <FlipMove> */}
         {booksInShelf.map((book) => (
           <BookPikcerCard
             book={book}
@@ -57,7 +53,6 @@ export const BookPicker: React.FC<IBookPickerProps> = ({
             key={book.id}
           />
         ))}
-        {/* </FlipMove> */}
       </div>
     </div>
   );
