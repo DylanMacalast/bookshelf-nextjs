@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongodb';
 import { IShelf } from '../interfaces';
 import { db } from './db';
 
@@ -8,19 +9,28 @@ export const shelfRepo = {
   getOne,
   getOnePublic,
   create,
-  addBookToShelf,
+  addBooksToShelf,
   makePublic,
   deleteShelf,
-  getByUserID,
-  updateShelf
+  getByUserId,
+  updateShelf,
+  getMyShelf,
+  createOrUpdate
 };
 
 async function getAll() {
   return await Shelf.find<IShelf>();
 }
 
-async function getOne(id: string) {
+async function getOne(id: string | ObjectId) {
   return await Shelf.findById<IShelf>({ _id: id });
+}
+
+async function getMyShelf(
+  shelfId: string | ObjectId,
+  userId: string | ObjectId
+) {
+  return await Shelf.findOne<IShelf>({ _id: shelfId, userId: userId });
 }
 
 // Function to get a shelf for a visitor to look at
@@ -34,20 +44,37 @@ async function create(shelfParam: IShelf) {
   return await shelf.save();
 }
 
-async function addBookToShelf(shelfId: string, bookId: string) {
-  return await Shelf.updateOne({ _id: shelfId }, { $push: { books: bookId } });
+async function createOrUpdate(shelfParam: IShelf) {
+  if (shelfParam._id) {
+    return await Shelf.findByIdAndUpdate(shelfParam._id, shelfParam, {
+      new: true
+    });
+  }
+
+  const shelf = new Shelf(shelfParam);
+  return await shelf.save();
 }
 
-async function makePublic(id: string) {
+async function addBooksToShelf(
+  shelfId: string,
+  bookIds: string[] | ObjectId[]
+) {
+  return await Shelf.updateOne(
+    { _id: shelfId },
+    { $push: { books: { $each: bookIds } } }
+  );
+}
+
+async function makePublic(id: string | ObjectId) {
   return await Shelf.updateOne({ _id: id }, { public: true });
 }
 
-async function deleteShelf(id: string) {
+async function deleteShelf(id: string | ObjectId) {
   return await Shelf.deleteOne({ _id: id });
 }
 
-async function getByUserID(userID: string) {
-  return await Shelf.find<IShelf>({ userID });
+async function getByUserId(userId: string | ObjectId) {
+  return await Shelf.find<IShelf>({ userId });
 }
 
 async function updateShelf(shelf: IShelf) {
