@@ -6,7 +6,8 @@ const User = db.User;
 export const userRepo = {
   getAll,
   registerUser,
-  findUserByUsername
+  findUserByUsername,
+  findUserById
 };
 
 async function getAll() {
@@ -28,4 +29,8 @@ async function loginUser(username: string, password: string) {
 
 async function findUserByUsername(username: string) {
   return await User.findOne({ username });
+}
+
+async function findUserById(id: string) {
+  return await User.findById(id);
 }
