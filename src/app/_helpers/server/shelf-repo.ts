@@ -15,7 +15,8 @@ export const shelfRepo = {
   getByUserId,
   updateShelf,
   getMyShelf,
-  createOrUpdate
+  createOrUpdate,
+  removeBooksFromShelf
 };
 
 async function getAll() {
@@ -30,7 +31,9 @@ async function getMyShelf(
   shelfId: string | ObjectId,
   userId: string | ObjectId
 ) {
-  return await Shelf.findOne<IShelf>({ _id: shelfId, userId: userId });
+  return await Shelf.findOne<IShelf>({ _id: shelfId, userId: userId }).populate(
+    'books'
+  );
 }
 
 // Function to get a shelf for a visitor to look at
@@ -62,6 +65,16 @@ async function addBooksToShelf(
   return await Shelf.updateOne(
     { _id: shelfId },
     { $push: { books: { $each: bookIds } } }
+  );
+}
+
+async function removeBooksFromShelf(
+  shelfId: string,
+  bookIds: string[] | ObjectId[]
+) {
+  return await Shelf.updateOne(
+    { _id: shelfId },
+    { $pullAll: { books: bookIds } }
   );
 }
 

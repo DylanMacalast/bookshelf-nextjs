@@ -46,6 +46,21 @@ const page = async ({ params }: { params: { shelfId: string } }) => {
     title: b.title
   }));
 
+  const allMyBooks = await getBooksForShelfForm(session.userId as string);
+  const booksToAdd: { id: string; title: string }[] = [];
+
+  for (const b of allMyBooks) {
+    if (
+      booksInShelf.length == 0 ||
+      booksInShelf.some((bis) => bis.id != b.id)
+    ) {
+      booksToAdd.push({
+        id: b.id,
+        title: b.title
+      });
+    }
+  }
+
   return (
     <>
       <ShelfForm
@@ -57,8 +72,9 @@ const page = async ({ params }: { params: { shelfId: string } }) => {
         }}
       />
       <BookPicker
-        initialBooksToAdd={await getBooksForShelfForm(session.userId as string)}
+        initialBooksToAdd={booksToAdd}
         initialBooksInShelf={booksInShelf}
+        shelfId={shelf._id?.toString() || ''}
       />
     </>
   );
