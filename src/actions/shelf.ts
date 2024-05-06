@@ -3,8 +3,8 @@ import { redirect } from 'next/navigation';
 import { ISessionUser, IShelf } from '../app/_helpers/interfaces';
 import { shelfRepo } from '../app/_helpers/server/shelf-repo';
 import { verifySession } from '../app/lib/dal';
-import { ObjectId } from 'mongodb';
 import { bookRepo } from '../app/_helpers/server/book-repo';
+import { revalidatePath } from 'next/cache';
 
 export async function addShelf(
   prevState: {
@@ -69,6 +69,7 @@ export async function addShelf(
   if (redirectUser) {
     redirect(`/shelf-management/${shelf._id}`);
   } else {
+    revalidatePath(`/shelf-management/${shelf._id}`);
     return { message };
   }
 }

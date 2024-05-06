@@ -9,8 +9,6 @@ const ShelfPage = ({
   shelf: IShelf;
   isOwner: boolean;
 }) => {
-  console.log(shelf);
-
   return (
     <div className="flex flex-col justify-center items-center my-5">
       {isOwner && <h3>You are the owener</h3>}

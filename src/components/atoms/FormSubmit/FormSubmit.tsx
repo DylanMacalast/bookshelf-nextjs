@@ -4,12 +4,18 @@ import { useFormStatus } from 'react-dom';
 interface FormSubmitProps {
   setShowPopup: React.Dispatch<React.SetStateAction<boolean>>;
   buttonText: string;
+  doStuff: () => void;
 }
 
-function FormSubmit({ setShowPopup, buttonText }: FormSubmitProps) {
+function FormSubmit({ setShowPopup, doStuff, buttonText }: FormSubmitProps) {
   const { pending } = useFormStatus();
-  const handleClick = () => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    doStuff();
+
     setShowPopup(true);
+    e.currentTarget.form?.requestSubmit();
   };
 
   return (

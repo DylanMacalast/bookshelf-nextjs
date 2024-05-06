@@ -5,7 +5,6 @@ import { bookRepo } from '../../_helpers/server/book-repo';
 import { ShelfForm } from '../../../components/organisms/Forms/ShelfForm/ShelfForm';
 import { BookPicker } from '../../../components/organisms/BookPicker/BookPicker';
 
-// TODO: what about existing books in a shelf?
 const getBooksForShelfForm = async (userId: string) => {
   const myBooks = await bookRepo.getByUserId(userId);
 
@@ -71,6 +70,8 @@ const page = async ({ params }: { params: { shelfId: string } }) => {
           public: shelf.public
         }}
       />
+      <hr className="my-5"></hr>
+      <h1>Add Books to this shelf!</h1>
       <BookPicker
         initialBooksToAdd={booksToAdd}
         initialBooksInShelf={booksInShelf}

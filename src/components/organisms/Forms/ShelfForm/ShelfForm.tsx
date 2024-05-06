@@ -21,12 +21,33 @@ interface ShelfFormProps {
 export function ShelfForm({ shelf = {} }: ShelfFormProps) {
   const [state, formAction] = useFormState(addShelf, initialState);
   const [showPopup, setShowPopup] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+
+  const handleEditClick = () => {
+    setIsEditing(true);
+  };
 
   return (
     <div className="max-w-2xl mx-auto">
       <h1 className="text-4xl font-bold text-center text-blue-500 my-4">
         {shelf?.id ? 'Edit Shelf' : 'Create Shelf'}
       </h1>
+      {shelf && !isEditing && (
+        <button
+          onClick={handleEditClick}
+          className="bg-blue-500 text-white px-4 py-2 rounded"
+        >
+          EDIT DETAILS
+        </button>
+      )}
+      {shelf && isEditing && (
+        <button
+          className="bg-red-500 text-white px-4 py-2 rounded"
+          onClick={() => setIsEditing(false)}
+        >
+          CANCEL
+        </button>
+      )}
       <form action={formAction} className="flex flex-col space-y-2">
         <input
           type="hidden"
@@ -42,6 +63,7 @@ export function ShelfForm({ shelf = {} }: ShelfFormProps) {
           placeholder="Shelf Title"
           defaultValue={shelf?.title || ''}
           required
+          disabled={shelf && !isEditing}
         />
         <input
           type="text"
@@ -51,6 +73,7 @@ export function ShelfForm({ shelf = {} }: ShelfFormProps) {
           placeholder="Shelf Description"
           defaultValue={shelf?.description || ''}
           required
+          disabled={shelf && !isEditing}
         />
         <div className="flex items-center space-x-2">
           <label htmlFor="hardback" className="text-black-500 font-bold">
@@ -63,9 +86,16 @@ export function ShelfForm({ shelf = {} }: ShelfFormProps) {
             value="true"
             className="w-5 h-5 text-blue-500 rounded"
             defaultChecked={shelf?.public || false}
+            disabled={shelf && !isEditing}
           />
         </div>
-        <FormSubmit setShowPopup={setShowPopup} buttonText="Save Shelf" />
+        {(shelf == null || isEditing) && (
+          <FormSubmit
+            setShowPopup={setShowPopup}
+            doStuff={() => setIsEditing(false)}
+            buttonText={shelf == null ? 'Save Shelf' : 'Update Shelf Details'}
+          />
+        )}
         {state.message != '' && (
           <Fyi
             message={state.message}

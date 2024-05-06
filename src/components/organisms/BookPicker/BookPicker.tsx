@@ -23,7 +23,6 @@ export const BookPicker: React.FC<IBookPickerProps> = ({
   const [booksToAdd, setBooksToAdd] = useState(initialBooksToAdd);
   const [booksInShelf, setBooksInShelf] = useState(initialBooksInShelf);
 
-  console.log(initialBooksToAdd);
   const onAddBook = async (book: IBook) => {
     setBooksToAdd(booksToAdd.filter((b) => b.id !== book.id));
     setBooksInShelf([...booksInShelf, book]);
