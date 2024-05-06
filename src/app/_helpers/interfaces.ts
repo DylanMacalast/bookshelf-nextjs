@@ -56,3 +56,8 @@ export interface IUser {
 export interface IUserConfig {
   [key: string]: any;
 }
+
+export interface ISessionUser {
+  isAuth: boolean;
+  userId?: string | ObjectId;
+}

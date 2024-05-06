@@ -1,6 +1,6 @@
 'use server';
 import { redirect } from 'next/navigation';
-import { IShelf } from '../app/_helpers/interfaces';
+import { ISessionUser, IShelf } from '../app/_helpers/interfaces';
 import { shelfRepo } from '../app/_helpers/server/shelf-repo';
 import { verifySession } from '../app/lib/dal';
 import { ObjectId } from 'mongodb';
@@ -75,35 +75,14 @@ export async function addShelf(
 
 // TODO: Update this to be for bookIds not just one bookId -> that way we can do bulk select & add in the client
 export async function addBookToShelf(shelfId: string, bookId: string) {
-  const user = await verifySession();
+  const user: ISessionUser = await verifySession();
   if (!user || user.userId == null || user.userId === '') {
     throw new Error('Invalid session');
   }
 
-  // EXTREME SECURITY - NO FUCKING AROUND
-  // REVIEW: this does add extra overhead to adding books to the shelf...
-  // not sure if there is a better way to do this. I guess caching would help down the line
-  // for now I think it's fine -> somethig that will deffo need looking at in the future!
-
-  const shelf = await shelfRepo.getOne(shelfId);
-  if (!shelf) {
-    throw new Error('No shelf found with the provided ID');
-  }
-
-  // Check if the user owns the shelf
-  if (shelf.userId.toString() !== user.userId) {
-    throw new Error('You do not own this shelf');
-  }
-
-  // Fetch the book from the database
-  const book = await bookRepo.getById(bookId);
-  if (!book) {
-    throw new Error('No book found with the provided ID');
-  }
-
-  // Check if the user owns the book
-  if (book.userId !== user.userId) {
-    throw new Error('You do not own this book');
+  const error = await shelfSecurityChecks(shelfId, bookId, user);
+  if (error != '') {
+    throw new Error(error);
   }
 
   try {
@@ -114,3 +93,61 @@ export async function addBookToShelf(shelfId: string, bookId: string) {
     return { message: 'Error adding book to shelf' };
   }
 }
+
+export async function removeBookFromShelf(shelfId: string, bookId: string) {
+  const user = await verifySession();
+  if (!user || user.userId == null || user.userId === '') {
+    throw new Error('Invalid session');
+  }
+
+  const error = await shelfSecurityChecks(shelfId, bookId, user);
+  if (error != '') {
+    throw new Error(error);
+  }
+
+  try {
+    await shelfRepo.removeBooksFromShelf(shelfId, [bookId]);
+    return { message: 'Book added to shelf' };
+  } catch (e) {
+    console.error(e);
+    return { message: 'Error adding book to shelf' };
+  }
+}
+
+// #region helper
+const shelfSecurityChecks = async (
+  shelfId: string,
+  bookId: string,
+  user: ISessionUser
+) => {
+  // EXTREME SECURITY - NO FUCKING AROUND
+  // REVIEW: this does add extra overhead to adding books to the shelf...
+  // not sure if there is a better way to do this. I guess caching would help down the line
+  // for now I think it's fine -> somethig that will deffo need looking at in the future!
+
+  const shelf = await shelfRepo.getOne(shelfId);
+  let error = '';
+
+  if (!shelf) {
+    error = 'No shelf found with the provided ID';
+  }
+
+  // Check if the user owns the shelf
+  if (shelf?.userId.toString() !== user.userId) {
+    error = 'You do not own this shelf';
+  }
+
+  // Fetch the book from the database
+  const book = await bookRepo.getById(bookId);
+  if (!book) {
+    error = 'No book found with the provided ID';
+  }
+
+  // Check if the user owns the book
+  if (book.userId.toString() !== user.userId) {
+    error = 'You do not own this book';
+  }
+
+  return error;
+};
+// #endregion
